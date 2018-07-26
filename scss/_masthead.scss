@@ -4,6 +4,8 @@ header.masthead {
   padding-bottom: calc(10rem - 56px);
   background-image: url('../img/header.jpg');
   background-position: center center;
+  background-color: black;
+  
   @include background-cover;
   hr {
     margin-top: 30px;
