@@ -5,6 +5,7 @@ var header = require('gulp-header');
 var cleanCSS = require('gulp-clean-css');
 var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
+var critical = require('critical').stream;
 var pkg = require('./package.json');
 var browserSync = require('browser-sync').create();
 
@@ -79,6 +80,13 @@ gulp.task('css', function() {
     .pipe(browserSync.stream());
 });
 
+// Generate & Inline Critical-path CSS
+gulp.task('critical', function () {
+    return gulp.src('dist/*.html')
+        .pipe(critical({base: 'dist/', inline: true, css: ['dist/css/creative.min.css']}))
+        .on('error', function(err) { console.log(err.message); })
+        .pipe(gulp.dest('dist'));
+});
 
 // CSS
 //gulp.task('css', ['css:minify','css:compile']);
@@ -97,7 +105,7 @@ gulp.task('browserSync', function() {
 });
 
 // Dev task
-gulp.task('dev', ['browserSync', 'css', 'js', 'html', 'images'], function() {
+gulp.task('dev', ['browserSync', 'css', 'js', 'html', 'images', 'critical'], function() {
   gulp.watch('./scss/**/*.scss', ['css', browserSync.reload]);
   gulp.watch('./js/*.js', ['js']);
   // Reloads the browser whenever HTML or JS files change
