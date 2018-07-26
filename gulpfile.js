@@ -17,34 +17,6 @@ var banner = ['/*!\n',
   ''
 ].join('');
 
-// Copy third party css from /node_modules into /vendor
-gulp.task('vendor:css', function() {
-
-  // Bootstrap
-  gulp.src([
-      './node_modules/bootstrap/dist/{css,css/*}',
-      '!./node_modules/bootstrap/dist/css/bootstrap-grid*',
-      '!./node_modules/bootstrap/dist/css/bootstrap-reboot*'
-    ])
-    .pipe(gulp.dest('./dist/vendor/bootstrap'));
-
-  // Font Awesome
-  gulp.src([
-      './node_modules/font-awesome/**/*',
-      '!./node_modules/font-awesome/{less,less/*}',
-      '!./node_modules/font-awesome/{scss,scss/*}',
-      '!./node_modules/font-awesome/.*',
-      '!./node_modules/font-awesome/*.{txt,json,md}'
-    ])
-    .pipe(gulp.dest('./dist/vendor/font-awesome'));
-
-  // Magnific Popup
-  gulp.src([
-      './node_modules/magnific-popup/dist/*.css'
-    ])
-    .pipe(gulp.dest('./dist/vendor/magnific-popup'));
-
-});
 
 // Minify JavaScript
 gulp.task('js:minify', function() {
@@ -107,7 +79,7 @@ gulp.task('css', function() {
 //gulp.task('css', ['css:minify','css:compile']);
 
 // Default task
-gulp.task('default', ['html', 'css', 'js', 'images', 'vendor:css']);
+gulp.task('default', ['html', 'css', 'js', 'images']);
 
 // Configure the browserSync task
 gulp.task('browserSync', function() {
