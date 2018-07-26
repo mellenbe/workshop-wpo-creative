@@ -57,6 +57,11 @@ gulp.task('images', function() {
   return gulp.src('./img/**/*')
   .pipe(gulp.dest('dist/img'))
 });
+gulp.task('fonts', function() {
+  return gulp.src('./fonts/**/*')
+  .pipe(gulp.dest('dist/fonts'))
+});
+
 
 // Compile SCSS
 gulp.task('css', function() {
@@ -79,7 +84,7 @@ gulp.task('css', function() {
 //gulp.task('css', ['css:minify','css:compile']);
 
 // Default task
-gulp.task('default', ['html', 'css', 'js', 'images']);
+gulp.task('default', ['html', 'css', 'js', 'images', 'fonts']);
 
 // Configure the browserSync task
 gulp.task('browserSync', function() {
