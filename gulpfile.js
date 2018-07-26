@@ -7,7 +7,9 @@ var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 var critical = require('critical').stream;
 var pkg = require('./package.json');
+var compress = require('compression');
 var browserSync = require('browser-sync').create();
+var pump = require('pump');
 
 // Set the banner content
 var banner = ['/*!\n',
@@ -18,27 +20,24 @@ var banner = ['/*!\n',
   ''
 ].join('');
 
-
 // Minify JavaScript
-gulp.task('js:minify', function() {
-    return gulp.src([
-        './dist/js/*.js',
-        '!./dist/js/*.min.js'
-    ])
-        .pipe(uglify())
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(gulp.dest('./dist/js'))
-        .pipe(browserSync.stream());
+gulp.task('js:minify', function (cb) {
+  pump([
+        gulp.src('./js/*.js'),
+        uglify(),
+        gulp.dest('./dist/js')
+    ],
+    cb
+  );
+  browserSync.stream();
 });
 
 gulp.task('js:concat', function() {
     return gulp.src([
-        './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
         './node_modules/jquery/dist/jquery.min.js',
         './node_modules/jquery.easing/jquery.easing.min.js',
         './node_modules/magnific-popup/dist/jquery.magnific-popup.min.js',
+        './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
         './node_modules/scrollreveal/dist/scrollreveal.min.js',
         './dist/js/creative.min.js'
     ])
@@ -88,9 +87,6 @@ gulp.task('critical', function () {
         .pipe(gulp.dest('dist'));
 });
 
-// CSS
-//gulp.task('css', ['css:minify','css:compile']);
-
 // Default task
 gulp.task('default', ['html', 'css', 'js', 'images', 'fonts']);
 
@@ -99,13 +95,14 @@ gulp.task('browserSync', function() {
   browserSync.init({
     startPath: "/dist",
       server: {
-        baseDir: '.'
+        baseDir: '.',
+        middleware: [compress()]
       }
   });
 });
 
 // Dev task
-gulp.task('dev', ['browserSync', 'css', 'js', 'html', 'images', 'critical'], function() {
+gulp.task('dev', ['browserSync', 'css', 'js', 'html', 'images', 'fonts', 'critical'], function() {
   gulp.watch('./scss/**/*.scss', ['css', browserSync.reload]);
   gulp.watch('./js/*.js', ['js']);
   // Reloads the browser whenever HTML or JS files change

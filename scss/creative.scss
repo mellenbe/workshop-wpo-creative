@@ -1,13 +1,15 @@
+
 @import "variables.scss";
 @import "mixins.scss";
+
+@import "bootstrap-custom";
+@import "bootstrap-overrides.scss";
+
 @import "global.scss";
 @import "navbar.scss";
 @import "masthead.scss";
 @import "services.scss";
 @import "portfolio.scss";
-
-@import "bootstrap-custom";
-@import "bootstrap-overrides.scss";
 
 @import "plugins";
 @import "optimize.scss";
