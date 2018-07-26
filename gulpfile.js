@@ -6,7 +6,6 @@ var cleanCSS = require('gulp-clean-css');
 var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 var pkg = require('./package.json');
-var rollup = require('rollup');
 var browserSync = require('browser-sync').create();
 
 // Set the banner content
