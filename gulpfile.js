@@ -21,6 +21,8 @@ var banner = ['/*!\n',
 // Minify JavaScript
 gulp.task('js:minify', function() {
     return gulp.src([
+        './js/*.js',
+        '!./js/*.min.js',
         './dist/js/*.js',
         '!./dist/js/*.min.js'
     ])
